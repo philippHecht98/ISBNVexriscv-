@@ -3,6 +3,7 @@ package vexriscv.plugin
 import spinal.core._
 import vexriscv.plugin.Plugin
 import vexriscv.{Stageable, DecoderService, VexRiscv}
+import vexriscv.ISBNBlackbox
 
 
 class ISBNPlugin extends Plugin[VexRiscv]{
@@ -44,13 +45,14 @@ class ISBNPlugin extends Plugin[VexRiscv]{
     execute plug new Area {
       //Define some signals used internally by the plugin
       val rs1 = execute.input(RS1).asUInt
-
-      // Blackbox goes up here
-
       val rd = UInt(32 bits)
 
+
+      // Blackbox goes up here
+      val test = new ISBNBlackbox()
+
       //Do some computations
-      rd(31 downto 0) := (rs1(3 downto 0) + 2 * rs1(7 downto 4) + 3 * rs1(11 downto 8) + 4 * rs1(15 downto 12)) % 11
+      // rd(31 downto 0) := (rs1(3 downto 0) + 2 * rs1(7 downto 4) + 3 * rs1(11 downto 8) + 4 * rs1(15 downto 12)) % 11
 
       //When the instruction is a SIMD_ADD, write the result into the register file data path.
       when(execute.input(IS_ISBN)) {
