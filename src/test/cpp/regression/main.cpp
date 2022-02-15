@@ -4348,6 +4348,10 @@ int main(int argc, char **argv, char **env) {
 			redo(REDO,WorkspaceRegression("custom_simd_add").loadHex(string(REGRESSION_PATH) + "../custom/simd_add/build/custom_simd_add.hex")->bootAt(0x00000000u)->run(50e3););
 		#endif
 
+		#ifdef CUSTOM_SIMD_ISBN
+			redo(REDO,WorkspaceRegression("custom_simd_isbn").loadHex(string(REGRESSION_PATH) + "../custom/isbn/build/custom_simd_isbn.hex")->bootAt(0x00000000u)->run(50e3););
+		#endif
+
 		#ifdef CUSTOM_CSR
 			redo(REDO,WorkspaceRegression("custom_csr").loadHex(string(REGRESSION_PATH) + "../custom/custom_csr/build/custom_csr.hex")->bootAt(0x00000000u)->run(50e3););
 		#endif
