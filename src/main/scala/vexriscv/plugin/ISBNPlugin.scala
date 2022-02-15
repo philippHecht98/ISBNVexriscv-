@@ -32,7 +32,7 @@ class ISBNPlugin extends Plugin[VexRiscv]{
         BYPASSABLE_EXECUTE_STAGE -> True, //Notify the hazard management unit that the instruction result is already accessible in the EXECUTE stage (Bypass ready)
         BYPASSABLE_MEMORY_STAGE  -> True, //Same as above but for the memory stage
         RS1_USE                  -> True, //Notify the hazard management unit that this instruction uses the RS1 value
-        RS2_USE                  -> False  //Same as above but for RS2.
+        RS2_USE                  -> True  //Same as above but for RS2.
       )
     )
   }
@@ -45,11 +45,16 @@ class ISBNPlugin extends Plugin[VexRiscv]{
     execute plug new Area {
       //Define some signals used internally by the plugin
       val rs1 = execute.input(RS1).asUInt
+      val rs2 = execute.input(RS1).asUInt
       val rd = UInt(32 bits)
 
 
       // Blackbox goes up here
       val test = new ISBNBlackbox()
+
+      test.io.isbn(31 downto 0) <> rs1(31 downto 0)
+      test.io.isbn(39 downto 32) <> rs2(7 downto 0)
+      test.io.wgh  <> rd
 
       //Do some computations
       // rd(31 downto 0) := (rs1(3 downto 0) + 2 * rs1(7 downto 4) + 3 * rs1(11 downto 8) + 4 * rs1(15 downto 12)) % 11

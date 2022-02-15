@@ -15,8 +15,8 @@ class ISBNBlackbox() extends BlackBox {
   // Define IO of the VHDL entity / Verilog module
   val io = new Bundle {
       val clk = in Bool()
-      val rs1 = in UInt(),
-      val rd = out UInt()
+      val isbn  = in UInt(40 bit)
+      val wgh = out UInt(32 bit)
   }
   /*
   val io = new Bundle {
@@ -37,5 +37,5 @@ class ISBNBlackbox() extends BlackBox {
   // Map the current clock domain to the io.clk pin
   mapClockDomain(clock=io.clk)
 
-  addRTLPath("../HE")
+  addRTLPath("../HEfSE/vivado/vivado.srcs/sources_1/new/isbn.v")
 }
