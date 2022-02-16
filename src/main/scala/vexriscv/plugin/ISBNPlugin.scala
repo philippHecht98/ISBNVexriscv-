@@ -45,7 +45,7 @@ class ISBNPlugin extends Plugin[VexRiscv]{
     execute plug new Area {
       //Define some signals used internally by the plugin
       val rs1 = execute.input(RS1).asUInt
-      val rs2 = execute.input(RS1).asUInt
+      val rs2 = execute.input(RS2).asUInt
       val rd = UInt(32 bits)
 
 
@@ -60,11 +60,21 @@ class ISBNPlugin extends Plugin[VexRiscv]{
       
 
       //Do some computations
-      rd(7 downto 0) := ((1 * rs1(3 downto 0) + 2 * rs1(7 downto 4) + 3 * rs1(11 downto 8) + 
-                          4 * rs1(15 downto 12) + 5 * rs1(19 downto 16) + 6 * rs1(23 downto 20) + 
-                          7 * rs1(27 downto 24) + 8 * rs1(31 downto 28) + 9 * rs1(3 downto 0) + 
-                          10 * rs1(7 downto 4)) % 11)
-      rd(31 downto 8) := 0
+      
+      val sum1 = UInt(7 bits)
+      val sum2 = UInt(8 bits)
+      val sum3 = UInt(8 bits)
+      val sum4 = UInt(9 bits)
+      val sum5 = UInt(9 bits)
+
+      sum1 := (2 * rs1(7  downto  4)) +^ (1 * rs1(3 downto 0))
+      sum2 := (4 * rs1(15 downto 12)) +^ (3 * rs1(11 downto 8))
+      sum3 := (6 * rs1(23 downto 20)) +^ (5 * rs1(19 downto 16))
+      sum4 := (8 * rs1(31 downto 28)) +^ (7 * rs1(27 downto 24)) 
+      sum5 := (10 * rs2(7  downto  4)) +^ (9 * rs2(3 downto 0))
+
+      rd(11 downto 0) := (sum1 +^ sum2 +^ sum3 +^ sum4 +^ sum5) % 11
+      rd(31 downto 12) := 0
 
       //When the instruction is a SIMD_ADD, write the result into the register file data path.
       when(execute.input(IS_ISBN)) {
