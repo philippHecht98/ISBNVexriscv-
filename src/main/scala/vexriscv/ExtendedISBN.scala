@@ -73,9 +73,7 @@ object ExtendedISBN extends App{
         pessimisticAddressMatch = false
       ),
       new MulPlugin,
-      new DivPlugin,
       new CsrPlugin(CsrPluginConfig.small(0x80000020l)),
-      new DebugPlugin(ClockDomain.current.clone(reset = Bool().setName("debugReset"))),
       new BranchPlugin(
         earlyBranch = false,
         catchAddressMisaligned = true

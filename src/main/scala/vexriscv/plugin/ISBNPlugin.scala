@@ -50,14 +50,21 @@ class ISBNPlugin extends Plugin[VexRiscv]{
 
 
       // Blackbox goes up here
-      val test = new ISBNBlackbox()
+      //val test = new ISBNBlackbox()
+      //val report = SpinalHDL(test)
 
-      test.io.isbn(31 downto 0) <> rs1(31 downto 0)
-      test.io.isbn(39 downto 32) <> rs2(7 downto 0)
-      test.io.wgh  <> rd
+      //test.io.isbn(31 downto 0) <> rs1(31 downto 0)
+      //test.io.isbn(39 downto 32) <> rs2(7 downto 0)
+      //test.io.wgh  <> rd
+
+      
 
       //Do some computations
-      // rd(31 downto 0) := (rs1(3 downto 0) + 2 * rs1(7 downto 4) + 3 * rs1(11 downto 8) + 4 * rs1(15 downto 12)) % 11
+      rd(7 downto 0) := ((1 * rs1(3 downto 0) + 2 * rs1(7 downto 4) + 3 * rs1(11 downto 8) + 
+                          4 * rs1(15 downto 12) + 5 * rs1(19 downto 16) + 6 * rs1(23 downto 20) + 
+                          7 * rs1(27 downto 24) + 8 * rs1(31 downto 28) + 9 * rs1(3 downto 0) + 
+                          10 * rs1(7 downto 4)) % 11)
+      rd(31 downto 8) := 0
 
       //When the instruction is a SIMD_ADD, write the result into the register file data path.
       when(execute.input(IS_ISBN)) {
